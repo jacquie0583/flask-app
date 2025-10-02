@@ -1,18 +1,19 @@
 steps:
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build','-t','us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest','.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest', '.']
+    logging: CLOUD_LOGGING_ONLY
 
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push','us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest']
 
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: gcloud
-  args:
-  - 'run'
-  - 'deploy'
-  - 'pyflaskapp'
-  - '--image'
-  - 'us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest'
-  - '--region'
-  - 'us-central1'
-  - '--allow-unauthenticated'  
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+    - 'run'
+    - 'deploy'
+    - 'pyflaskapp'
+    - '--image'
+    - 'us-central1-docker.pkg.dev/gcp-cicd-demo-409307/pyapprepo-artifact/pyappimage:latest'
+    - '--region'
+    - 'us-central1'
+    - '--allow-unauthenticated'  
